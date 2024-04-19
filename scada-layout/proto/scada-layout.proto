@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option go_package = "scada-layout/pb";
+package scada_layout;
+
+service ScadaLayoutService {
+    rpc getFieldsTags(FieldList) returns (GetFieldsTagsResponse) {};
+}
+
+message FieldList {
+    repeated string fields = 1;
+}
+
+message GetFieldsTagsResponse {
+    message FieldTag {
+        string field = 1;
+        repeated string equipments = 2;
+        repeated string groups = 3;
+        repeated string floors = 4;
+        string unit = 5;
+        string sensorType = 6;
+    }
+    repeated FieldTag fieldTags = 1;
+}
