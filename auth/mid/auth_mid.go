@@ -1,8 +1,10 @@
 package mid
 
 import (
+	"context"
 	"net/http"
 	"strings"
+	"time"
 
 	authClient "github.com/muulinCorp/interlib/auth/client"
 	"github.com/muulinCorp/interlib/auth/pb"
@@ -62,8 +64,9 @@ func (am *interAuthMiddle) Handler() gin.HandlerFunc {
 				c.Abort()
 				return
 			}
-
-			user, err := am.authSDK.GetTokenInfo(c, &pb.GetTokenInfoRequest{
+			timeout, cancel := context.WithTimeout(c, 3*time.Second)
+			defer cancel()
+			user, err := am.authSDK.GetTokenInfo(timeout, &pb.GetTokenInfoRequest{
 				Host: host, Token: authToken[7:],
 			})
 			if err != nil {
