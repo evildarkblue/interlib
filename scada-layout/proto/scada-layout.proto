@@ -42,7 +42,7 @@ message GetReportFieldsResponse {
         string name = 7;
         string displayType = 8;
         uint32 displayDp = 9;
-        map<string, string> trans = 10;
+        map<int32, string> trans = 10;
     }
     string projectName = 1;
     repeated Field fields = 2;

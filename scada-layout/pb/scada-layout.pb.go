@@ -324,16 +324,16 @@ type GetReportFieldsResponse_Field struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Field       string            `protobuf:"bytes,1,opt,name=field,proto3" json:"field,omitempty"`
-	Equipments  []string          `protobuf:"bytes,2,rep,name=equipments,proto3" json:"equipments,omitempty"`
-	Groups      []string          `protobuf:"bytes,3,rep,name=groups,proto3" json:"groups,omitempty"`
-	Floors      []string          `protobuf:"bytes,4,rep,name=floors,proto3" json:"floors,omitempty"`
-	Unit        string            `protobuf:"bytes,5,opt,name=unit,proto3" json:"unit,omitempty"`
-	SensorType  string            `protobuf:"bytes,6,opt,name=sensorType,proto3" json:"sensorType,omitempty"`
-	Name        string            `protobuf:"bytes,7,opt,name=name,proto3" json:"name,omitempty"`
-	DisplayType string            `protobuf:"bytes,8,opt,name=displayType,proto3" json:"displayType,omitempty"`
-	DisplayDp   uint32            `protobuf:"varint,9,opt,name=displayDp,proto3" json:"displayDp,omitempty"`
-	Trans       map[string]string `protobuf:"bytes,10,rep,name=trans,proto3" json:"trans,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	Field       string           `protobuf:"bytes,1,opt,name=field,proto3" json:"field,omitempty"`
+	Equipments  []string         `protobuf:"bytes,2,rep,name=equipments,proto3" json:"equipments,omitempty"`
+	Groups      []string         `protobuf:"bytes,3,rep,name=groups,proto3" json:"groups,omitempty"`
+	Floors      []string         `protobuf:"bytes,4,rep,name=floors,proto3" json:"floors,omitempty"`
+	Unit        string           `protobuf:"bytes,5,opt,name=unit,proto3" json:"unit,omitempty"`
+	SensorType  string           `protobuf:"bytes,6,opt,name=sensorType,proto3" json:"sensorType,omitempty"`
+	Name        string           `protobuf:"bytes,7,opt,name=name,proto3" json:"name,omitempty"`
+	DisplayType string           `protobuf:"bytes,8,opt,name=displayType,proto3" json:"displayType,omitempty"`
+	DisplayDp   uint32           `protobuf:"varint,9,opt,name=displayDp,proto3" json:"displayDp,omitempty"`
+	Trans       map[int32]string `protobuf:"bytes,10,rep,name=trans,proto3" json:"trans,omitempty" protobuf_key:"varint,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
 func (x *GetReportFieldsResponse_Field) Reset() {
@@ -431,7 +431,7 @@ func (x *GetReportFieldsResponse_Field) GetDisplayDp() uint32 {
 	return 0
 }
 
-func (x *GetReportFieldsResponse_Field) GetTrans() map[string]string {
+func (x *GetReportFieldsResponse_Field) GetTrans() map[int32]string {
 	if x != nil {
 		return x.Trans
 	}
@@ -507,7 +507,7 @@ var file_scada_layout_proto_scada_layout_proto_rawDesc = []byte{
 	0x69, 0x65, 0x6c, 0x64, 0x2e, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52,
 	0x05, 0x74, 0x72, 0x61, 0x6e, 0x73, 0x1a, 0x38, 0x0a, 0x0a, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x45,
 	0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18,
+	0x05, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18,
 	0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01,
 	0x32, 0xba, 0x01, 0x0a, 0x12, 0x53, 0x63, 0x61, 0x64, 0x61, 0x4c, 0x61, 0x79, 0x6f, 0x75, 0x74,
 	0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x4f, 0x0a, 0x0d, 0x67, 0x65, 0x74, 0x46, 0x69,
