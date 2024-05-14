@@ -10,6 +10,7 @@ import (
 type ScadaLayoutClient interface {
 	GetFieldsTags(ctx context.Context, fields []string) (*pb.GetFieldsTagsResponse, error)
 	GetFieldsTagsReader(ctx context.Context, fields []string) (FieldTagsReader, error)
+	GetReportFieldReader(ctx context.Context, fields []string) (ReportFieldReader, error)
 }
 
 type clientImpl struct {
@@ -36,24 +37,6 @@ func (impl *clientImpl) GetFieldsTags(ctx context.Context, fields []string) (*pb
 	})
 }
 
-func (impl *clientImpl) GetFieldsTagsReader(ctx context.Context, fields []string) (FieldTagsReader, error) {
-	grpc, err := grpc_tool.NewConnection(ctx, impl.address)
-	if err != nil {
-		return nil, err
-	}
-	defer grpc.Close()
-
-	clt := pb.NewScadaLayoutServiceClient(grpc)
-
-	resp, err := clt.GetFieldsTags(ctx, &pb.FieldList{
-		Fields: fields,
-	})
-	if err != nil {
-		return nil, err
-	}
-	return NewFieldTagsReader(resp), nil
-}
-
 type FieldTagsReader interface {
 	GetFieldTag(f string) *pb.GetFieldsTagsResponse_FieldTag
 }
@@ -74,4 +57,69 @@ type fieldTagsReaderImpl struct {
 
 func (impl *fieldTagsReaderImpl) GetFieldTag(f string) *pb.GetFieldsTagsResponse_FieldTag {
 	return impl.data[f]
+}
+
+func (impl *clientImpl) GetFieldsTagsReader(ctx context.Context, fields []string) (FieldTagsReader, error) {
+	grpc, err := grpc_tool.NewConnection(ctx, impl.address)
+	if err != nil {
+		return nil, err
+	}
+	defer grpc.Close()
+
+	clt := pb.NewScadaLayoutServiceClient(grpc)
+
+	resp, err := clt.GetFieldsTags(ctx, &pb.FieldList{
+		Fields: fields,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return NewFieldTagsReader(resp), nil
+}
+
+type ReportFieldReader interface {
+	GetProjectName() string
+	GetField(f string) *pb.GetReportFieldsResponse_Field
+}
+
+type reportFieldsReaderImpl struct {
+	projectName string
+	data        map[string]*pb.GetReportFieldsResponse_Field
+}
+
+func (impl *reportFieldsReaderImpl) GetProjectName() string {
+	return impl.projectName
+}
+
+func (impl *reportFieldsReaderImpl) GetField(f string) *pb.GetReportFieldsResponse_Field {
+	return impl.data[f]
+}
+
+func NewReportFieldsReader(resp *pb.GetReportFieldsResponse) ReportFieldReader {
+	data := make(map[string]*pb.GetReportFieldsResponse_Field)
+	for _, ft := range resp.Fields {
+		data[ft.Field] = ft
+	}
+	return &reportFieldsReaderImpl{
+		projectName: resp.ProjectName,
+		data:        data,
+	}
+}
+
+func (impl *clientImpl) GetReportFieldReader(ctx context.Context, fields []string) (ReportFieldReader, error) {
+	grpc, err := grpc_tool.NewConnection(ctx, impl.address)
+	if err != nil {
+		return nil, err
+	}
+	defer grpc.Close()
+
+	clt := pb.NewScadaLayoutServiceClient(grpc)
+
+	resp, err := clt.GetReportFields(ctx, &pb.FieldList{
+		Fields: fields,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return NewReportFieldsReader(resp), nil
 }
