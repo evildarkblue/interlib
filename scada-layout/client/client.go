@@ -14,6 +14,8 @@ type ScadaLayoutClient interface {
 	GetReportFieldReader(ctx context.Context, fields []string) (ReportFieldReader, error)
 	GetFieldListWithId(ctx context.Context, input *pb.GetFieldListRequest) ([]string, error)
 	GetReportSetting(ctx context.Context) (*pb.GetReportResponse, error)
+	GetScenarioReader(ctx context.Context) (ScenarioReader, error)
+	GetAlarmFields(ctx context.Context) ([]*pb.GetAlarmFieldsResponse_FieldDetail, error)
 }
 
 type clientImpl struct {
@@ -157,4 +159,36 @@ func (impl *clientImpl) GetReportSetting(ctx context.Context) (*pb.GetReportResp
 		return nil, err
 	}
 	return resp, nil
+}
+
+func (impl *clientImpl) GetScenarioReader(ctx context.Context) (ScenarioReader, error) {
+	grpc, err := grpc_tool.NewConnection(ctx, impl.address)
+	if err != nil {
+		return nil, err
+	}
+	defer grpc.Close()
+
+	clt := pb.NewScadaLayoutServiceClient(grpc)
+
+	resp, err := clt.GetScenario(ctx, &emptypb.Empty{})
+	if err != nil {
+		return nil, err
+	}
+	return newScenarioReader(resp), nil
+}
+
+func (impl *clientImpl) GetAlarmFields(ctx context.Context) ([]*pb.GetAlarmFieldsResponse_FieldDetail, error) {
+	grpc, err := grpc_tool.NewConnection(ctx, impl.address)
+	if err != nil {
+		return nil, err
+	}
+	defer grpc.Close()
+
+	clt := pb.NewScadaLayoutServiceClient(grpc)
+
+	resp, err := clt.GetAlarmFields(ctx, &emptypb.Empty{})
+	if err != nil {
+		return nil, err
+	}
+	return resp.Fields, nil
 }
