@@ -3,62 +3,86 @@ package client
 import (
 	"context"
 	"io"
-	"sync"
 
 	"github.com/94peter/microservice/grpc_tool"
 	"github.com/muulinCorp/interlib/configuration/pb"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 type ScadaSyncStreamClient interface {
+	grpc_tool.AutoReConnInter
 	StartListenSyncStream(context.Context, *pb.SyncConfigReq, chan *pb.SyncConfigResp, chan string)
 }
 
 type scadaSyncStreamImpl struct {
-	address string
+	*grpc_tool.AutoReConn
+
 	stream pb.ScadaSyncService_SyncConfigStreamClient
 }
 
 func NewScadaSyncStreamClient(address string) ScadaSyncStreamClient {
 	return &scadaSyncStreamImpl{
-		address: address,
+		AutoReConn: grpc_tool.NewAutoReconn(address),
 	}
 }
 
 func (i *scadaSyncStreamImpl) StartListenSyncStream(
-	ctx context.Context, req *pb.SyncConfigReq, 
+	ctx context.Context, req *pb.SyncConfigReq,
 	respMsg chan *pb.SyncConfigResp, errMsg chan string,
 ) {
 	var err error
-	grpcClt, err := grpc_tool.NewConnection(i.address)
-	if err != nil {
-		errMsg <- err.Error()
-		return
-	}
-	defer grpcClt.Close()
-
-	service := pb.NewScadaSyncServiceClient(grpcClt)
-	i.stream, err = service.SyncConfigStream(ctx, req)
-	if err != nil {
-		errMsg <- err.Error()
-		return
-	}
-
-	var wg sync.WaitGroup
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
+	p := func(grpcClt grpc_tool.Connection) error {
+		service := pb.NewScadaSyncServiceClient(grpcClt)
+		i.stream, err = service.SyncConfigStream(context.Background(), req)
+		if err != nil {
+			i.Reconnect <- true
+			return err
+		}
+		i.Ready <- true
 		for {
 			in, err := i.stream.Recv()
 			if err == io.EOF {
-				errMsg <- "stream closed"
-				return
+				i.Done <- true
+				return nil
 			}
 			if err != nil {
-				errMsg <- err.Error()
-				return
+				status, ok := status.FromError(err)
+				if !ok {
+					i.Reconnect <- true
+					return err
+				}
+				if status.Code() == codes.NotFound {
+					i.Error <- err
+					return err
+				}
+
+				i.Reconnect <- true
+				return err
 			}
 			respMsg <- in
 		}
-	}()
-	wg.Wait()
+	}
+
+	go i.Process(p)
+	for {
+		select {
+		case <-ctx.Done():
+			i.Close()
+			return
+		case <-i.Ready:
+			continue
+		case <-i.Reconnect:
+			if !i.WaitUntilReady() {
+				continue
+			}
+		case <-i.Done:
+			i.Close()
+			return
+		case err := <-i.Error:
+			i.Close()
+			errMsg <- err.Error()
+			return
+		}
+	}
 }
