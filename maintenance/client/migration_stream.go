@@ -4,7 +4,6 @@ import (
 	"errors"
 	"io"
 	"net/http"
-	"time"
 
 	"github.com/94peter/microservice/grpc_tool"
 	"github.com/muulinCorp/interlib/maintenance/pb"
@@ -20,9 +19,9 @@ type MigrationStreamClient interface {
 	StopMigrationStream() error
 }
 
-func NewMigrationStreamClient(address string, timeout time.Duration) MigrationStreamClient {
+func NewMigrationStreamClient(address string) MigrationStreamClient {
 	return &migrationStreamImpl{
-		AutoReConn: grpc_tool.NewAutoReconn(address, timeout),
+		AutoReConn: grpc_tool.NewAutoReconn(address),
 	}
 }
 

@@ -30,7 +30,7 @@ func (c *reportGrpcClientImpl) CountSensorWarning(ctx context.Context, sensorIds
 	var err error
 	md := metadata.New(map[string]string{"X-Channel": c.channel})
 	ctx = metadata.NewOutgoingContext(ctx, md)
-	grpcClt, err := grpc_tool.NewConnection(ctx, c.address)
+	grpcClt, err := grpc_tool.NewConnection(c.address)
 	if err != nil {
 		return nil, err
 	}
@@ -50,7 +50,7 @@ func (c *reportGrpcClientImpl) GetSensorReportInfo(ctx context.Context, sensorId
 	var err error
 	md := metadata.New(map[string]string{"X-Channel": c.channel})
 
-	grpcClt, err := grpc_tool.NewConnection(ctx, c.address)
+	grpcClt, err := grpc_tool.NewConnection(c.address)
 	if err != nil {
 		return nil, err
 	}

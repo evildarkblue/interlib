@@ -24,7 +24,7 @@ type deviceV2SdkImpl struct {
 
 func (impl *deviceV2SdkImpl) CheckState(ctx context.Context, devices []*pb.Device) (map[string]*pb.DeviceState, error) {
 	var err error
-	mygrpc, err := grpc_tool.NewConnection(ctx, impl.address)
+	mygrpc, err := grpc_tool.NewConnection(impl.address)
 	if err != nil {
 		return nil, err
 	}

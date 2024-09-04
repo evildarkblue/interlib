@@ -27,7 +27,7 @@ type authClientImpl struct {
 }
 
 func (impl *authClientImpl) GetTokenInfo(ctx context.Context, req *pb.GetTokenInfoRequest) (*pb.GetTokenInfoResponse, error) {
-	grpc, err := grpc_tool.NewConnection(ctx, impl.address)
+	grpc, err := grpc_tool.NewConnection(impl.address)
 	if err != nil {
 		return nil, err
 	}
@@ -38,7 +38,7 @@ func (impl *authClientImpl) GetTokenInfo(ctx context.Context, req *pb.GetTokenIn
 }
 
 func (impl *authClientImpl) GetAccount(ctx context.Context, id string) (string, error) {
-	grpc, err := grpc_tool.NewConnection(ctx, impl.address)
+	grpc, err := grpc_tool.NewConnection(impl.address)
 	if err != nil {
 		return "", err
 	}
@@ -54,7 +54,7 @@ func (impl *authClientImpl) GetAccount(ctx context.Context, id string) (string, 
 }
 
 func (impl *authClientImpl) AccountExist(ctx context.Context, acc string) (bool, error) {
-	grpc, err := grpc_tool.NewConnection(ctx, impl.address)
+	grpc, err := grpc_tool.NewConnection(impl.address)
 	if err != nil {
 		return false, err
 	}
@@ -70,7 +70,7 @@ func (impl *authClientImpl) AccountExist(ctx context.Context, acc string) (bool,
 }
 
 func (impl *authClientImpl) CreateInvitation(ctx context.Context, email, name, channel string) (string, error) {
-	grpc, err := grpc_tool.NewConnection(ctx, impl.address)
+	grpc, err := grpc_tool.NewConnection(impl.address)
 	if err != nil {
 		return "", err
 	}
@@ -88,7 +88,7 @@ func (impl *authClientImpl) CreateInvitation(ctx context.Context, email, name, c
 }
 
 func (impl *authClientImpl) ForgetPwd(ctx context.Context, host, email string) (*pb.ForgetPasswordResponse, error) {
-	grpc, err := grpc_tool.NewConnection(ctx, impl.address)
+	grpc, err := grpc_tool.NewConnection(impl.address)
 	if err != nil {
 		return nil, err
 	}
@@ -101,7 +101,7 @@ func (impl *authClientImpl) ForgetPwd(ctx context.Context, host, email string) (
 }
 
 func (impl *authClientImpl) GetUserInfo(ctx context.Context, accoutOrEmail string) (*pb.GetUserInfoResponse, error) {
-	grpc, err := grpc_tool.NewConnection(ctx, impl.address)
+	grpc, err := grpc_tool.NewConnection(impl.address)
 	if err != nil {
 		return nil, err
 	}

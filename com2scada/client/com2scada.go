@@ -28,7 +28,7 @@ type changeDataStreamImpl struct {
 func (impl *changeDataStreamImpl) StartChangeDataStream(fields []string, resp chan map[string]float64) error {
 	var err error
 	ctx := context.Background()
-	grpcClt, err := grpc_tool.NewConnection(ctx, impl.address)
+	grpcClt, err := grpc_tool.NewConnection(impl.address)
 	if err != nil {
 		return err
 	}
@@ -80,7 +80,7 @@ type routineDataStreamImpl struct {
 func (impl *routineDataStreamImpl) StartRoutineDataStream(fields []string, resp chan map[string]float64) error {
 	var err error
 	ctx := context.Background()
-	grpcClt, err := grpc_tool.NewConnection(ctx, impl.address)
+	grpcClt, err := grpc_tool.NewConnection(impl.address)
 	if err != nil {
 		return err
 	}

@@ -4,7 +4,6 @@ import (
 	"errors"
 	"io"
 	"net/http"
-	"time"
 
 	"github.com/muulinCorp/interlib/channel/pb"
 	"google.golang.org/grpc/metadata"
@@ -20,9 +19,9 @@ type MigrationEquipStreamClient interface {
 	StopMigrationStream() error
 }
 
-func NewMigrationEquipStreamClient(address string, timeout time.Duration) MigrationEquipStreamClient {
+func NewMigrationEquipStreamClient(address string) MigrationEquipStreamClient {
 	return &migrationEquipStreamImpl{
-		AutoReConn: grpc_tool.NewAutoReconn(address, timeout),
+		AutoReConn: grpc_tool.NewAutoReconn(address),
 	}
 }
 

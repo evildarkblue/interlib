@@ -44,7 +44,7 @@ type sdkV1Impl struct {
 
 func (impl *sdkV1Impl) StartCreateV1Stream(ctx context.Context) error {
 	var err error
-	impl.Connection, err = grpc_tool.NewConnection(ctx, impl.address)
+	impl.Connection, err = grpc_tool.NewConnection(impl.address)
 	if err != nil {
 		return err
 	}
@@ -106,7 +106,7 @@ func (grpc *sdkV1Impl) CreateV1(req *pb.CreateDeviceV1Request) (*pb.CreateDevice
 
 func (grpc *sdkV1Impl) CheckExist(ctx context.Context, dvices []*pb.DeviceV1) (map[string]bool, error) {
 	var err error
-	grpc.Connection, err = grpc_tool.NewConnection(ctx, grpc.address)
+	grpc.Connection, err = grpc_tool.NewConnection(grpc.address)
 	if err != nil {
 		return nil, err
 	}
@@ -123,7 +123,7 @@ func (grpc *sdkV1Impl) CheckExist(ctx context.Context, dvices []*pb.DeviceV1) (m
 
 func (grpc *sdkV1Impl) CheckState(ctx context.Context, devices []*pb.Device) (map[string]string, error) {
 	var err error
-	grpc.Connection, err = grpc_tool.NewConnection(ctx, grpc.address)
+	grpc.Connection, err = grpc_tool.NewConnection(grpc.address)
 	if err != nil {
 		return nil, err
 	}
@@ -138,7 +138,7 @@ func (grpc *sdkV1Impl) CheckState(ctx context.Context, devices []*pb.Device) (ma
 
 func (grpc *sdkV1Impl) GetDeviceInfo(ctx context.Context, mac, gwid string) (*pb.DeviceInfoResponse, error) {
 	var err error
-	grpc.Connection, err = grpc_tool.NewConnection(ctx, grpc.address)
+	grpc.Connection, err = grpc_tool.NewConnection(grpc.address)
 	if err != nil {
 		return nil, err
 	}
@@ -153,7 +153,7 @@ func (grpc *sdkV1Impl) GetDeviceInfo(ctx context.Context, mac, gwid string) (*pb
 
 func (impl *sdkV1Impl) StartRemoveStream(ctx context.Context) error {
 	var err error
-	impl.Connection, err = grpc_tool.NewConnection(ctx, impl.address)
+	impl.Connection, err = grpc_tool.NewConnection(impl.address)
 	if err != nil {
 		return err
 	}

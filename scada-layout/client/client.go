@@ -29,7 +29,7 @@ func New(address string) ScadaLayoutClient {
 }
 
 func (impl *clientImpl) GetFieldsTags(ctx context.Context, fields []string) (*pb.GetFieldsTagsResponse, error) {
-	grpc, err := grpc_tool.NewConnection(ctx, impl.address)
+	grpc, err := grpc_tool.NewConnection(impl.address)
 	if err != nil {
 		return nil, err
 	}
@@ -65,7 +65,7 @@ func (impl *fieldTagsReaderImpl) GetFieldTag(f string) *pb.GetFieldsTagsResponse
 }
 
 func (impl *clientImpl) GetFieldsTagsReader(ctx context.Context, fields []string) (FieldTagsReader, error) {
-	grpc, err := grpc_tool.NewConnection(ctx, impl.address)
+	grpc, err := grpc_tool.NewConnection(impl.address)
 	if err != nil {
 		return nil, err
 	}
@@ -112,7 +112,7 @@ func NewReportFieldsReader(resp *pb.GetReportFieldsResponse) ReportFieldReader {
 }
 
 func (impl *clientImpl) GetReportFieldReader(ctx context.Context, fields []string) (ReportFieldReader, error) {
-	grpc, err := grpc_tool.NewConnection(ctx, impl.address)
+	grpc, err := grpc_tool.NewConnection(impl.address)
 	if err != nil {
 		return nil, err
 	}
@@ -130,7 +130,7 @@ func (impl *clientImpl) GetReportFieldReader(ctx context.Context, fields []strin
 }
 
 func (impl *clientImpl) GetFieldListWithId(ctx context.Context, input *pb.GetFieldListRequest) ([]string, error) {
-	grpc, err := grpc_tool.NewConnection(ctx, impl.address)
+	grpc, err := grpc_tool.NewConnection(impl.address)
 	if err != nil {
 		return nil, err
 	}
@@ -146,7 +146,7 @@ func (impl *clientImpl) GetFieldListWithId(ctx context.Context, input *pb.GetFie
 }
 
 func (impl *clientImpl) GetReportSetting(ctx context.Context) (*pb.GetReportResponse, error) {
-	grpc, err := grpc_tool.NewConnection(ctx, impl.address)
+	grpc, err := grpc_tool.NewConnection(impl.address)
 	if err != nil {
 		return nil, err
 	}
@@ -162,7 +162,7 @@ func (impl *clientImpl) GetReportSetting(ctx context.Context) (*pb.GetReportResp
 }
 
 func (impl *clientImpl) GetScenarioReader(ctx context.Context) (ScenarioReader, error) {
-	grpc, err := grpc_tool.NewConnection(ctx, impl.address)
+	grpc, err := grpc_tool.NewConnection(impl.address)
 	if err != nil {
 		return nil, err
 	}
@@ -178,7 +178,7 @@ func (impl *clientImpl) GetScenarioReader(ctx context.Context) (ScenarioReader, 
 }
 
 func (impl *clientImpl) GetAlarmFields(ctx context.Context) ([]*pb.GetAlarmFieldsResponse_FieldDetail, error) {
-	grpc, err := grpc_tool.NewConnection(ctx, impl.address)
+	grpc, err := grpc_tool.NewConnection(impl.address)
 	if err != nil {
 		return nil, err
 	}

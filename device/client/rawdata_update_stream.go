@@ -3,7 +3,6 @@ package client
 import (
 	"io"
 	"net/http"
-	"time"
 
 	"context"
 
@@ -19,9 +18,9 @@ type UpdateRawdataStreamClient interface {
 	StopUpdateRawdataStream() error
 }
 
-func NewUpdateRawdataStreamClient(address string, timeout time.Duration) UpdateRawdataStreamClient {
+func NewUpdateRawdataStreamClient(address string) UpdateRawdataStreamClient {
 	return &updateRawdataStreamSdkImpl{
-		AutoReConn: grpc_tool.NewAutoReconn(address, timeout),
+		AutoReConn: grpc_tool.NewAutoReconn(address),
 	}
 }
 

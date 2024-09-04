@@ -22,7 +22,7 @@ type MigrationUserStreamClient interface {
 
 func NewMigrationStreamClient(address string, timeout time.Duration) MigrationUserStreamClient {
 	return &migrationUserStreamImpl{
-		AutoReConn: grpc_tool.NewAutoReconn(address, timeout),
+		AutoReConn: grpc_tool.NewAutoReconn(address),
 	}
 }
 
