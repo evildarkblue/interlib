@@ -223,7 +223,7 @@ message GetElectricityDemandResponse {
         string unit = 4;
         InputLimit input_limit = 5;
         repeated GroupDetail groups = 6;
-        repeated TimingField timing_fields = 7;
+        TimingField timing_fields = 7;
         string dynamo_signal_field = 8;
     }
 
