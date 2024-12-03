@@ -3,7 +3,6 @@ package client
 import (
 	"io"
 	"net/http"
-	"time"
 
 	"github.com/pkg/errors"
 
@@ -20,9 +19,9 @@ type UpdateRealtimeStreamClient interface {
 	StopUpdateRealtimeStream() error
 }
 
-func NewUpdateRealtimeStreamClient(address string, timeout time.Duration) UpdateRealtimeStreamClient {
+func NewUpdateRealtimeStreamClient(address string) UpdateRealtimeStreamClient {
 	return &updateRealtimeStreamSdkImpl{
-		AutoReConn: grpc_tool.NewAutoReconn(address, timeout),
+		AutoReConn: grpc_tool.NewAutoReconn(address),
 	}
 }
 

@@ -4,7 +4,6 @@ import (
 	"errors"
 	"io"
 	"net/http"
-	"time"
 
 	"context"
 
@@ -20,9 +19,9 @@ type GetVirtualIdStreamClient interface {
 	StopGetVirtualIdStream() error
 }
 
-func NewVirutalIdStreamClient(address string, timeout time.Duration) GetVirtualIdStreamClient {
+func NewVirutalIdStreamClient(address string) GetVirtualIdStreamClient {
 	return &virtualIDStream{
-		AutoReConn: grpc_tool.NewAutoReconn(address, timeout),
+		AutoReConn: grpc_tool.NewAutoReconn(address),
 	}
 }
 

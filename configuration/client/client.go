@@ -22,7 +22,7 @@ type clientImpl struct {
 }
 
 func (impl *clientImpl) GetChannelConf(ctx context.Context, req *pb.GetConfRequest) ([]byte, error) {
-	grpc, err := grpc_tool.NewConnection(ctx, impl.address)
+	grpc, err := grpc_tool.NewConnection(impl.address)
 	if err != nil {
 		return nil, err
 	}

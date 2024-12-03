@@ -4,7 +4,6 @@ import (
 	"errors"
 	"io"
 	"net/http"
-	"time"
 
 	"github.com/94peter/microservice/grpc_tool"
 	"github.com/muulinCorp/interlib/device/pb"
@@ -19,10 +18,10 @@ type BackupRawdataStreamClient interface {
 	StopBackupRawdataStream() error
 }
 
-func NewBackupRawdataStreamClient(address string, timeout time.Duration) BackupRawdataStreamClient {
+func NewBackupRawdataStreamClient(address string) BackupRawdataStreamClient {
 
 	return &backupRawdataStreamSdkImpl{
-		AutoReConn: grpc_tool.NewAutoReconn(address, timeout),
+		AutoReConn: grpc_tool.NewAutoReconn(address),
 	}
 }
 

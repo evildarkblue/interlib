@@ -23,7 +23,7 @@ type reportClientImpl struct {
 }
 
 func (impl *reportClientImpl) QueryFieldsValueByLastInterval(ctx context.Context, interval time.Duration, fields []string) (map[string][]float64, error) {
-	grpc, err := grpc_tool.NewConnection(ctx, impl.address)
+	grpc, err := grpc_tool.NewConnection(impl.address)
 	if err != nil {
 		return nil, err
 	}

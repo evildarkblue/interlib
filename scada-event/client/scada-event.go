@@ -24,7 +24,7 @@ type scadaBasicEventClientImpl struct {
 }
 
 func (impl *scadaBasicEventClientImpl) CreateEvent(ctx context.Context, service, typ, summary, detail string) error {
-	grpc, err := grpc_tool.NewConnection(ctx, impl.address)
+	grpc, err := grpc_tool.NewConnection(impl.address)
 	if err != nil {
 		return err
 	}
@@ -86,7 +86,7 @@ type CreateWarn[T any] struct {
 }
 
 func (impl *scadaEventClientImpl[T]) CreateWarning(ctx context.Context, service string, warns ...*CreateWarn[T]) error {
-	grpc, err := grpc_tool.NewConnection(ctx, impl.address)
+	grpc, err := grpc_tool.NewConnection(impl.address)
 	if err != nil {
 		return err
 	}
@@ -119,7 +119,7 @@ func (impl *scadaEventClientImpl[T]) CreateWarning(ctx context.Context, service 
 }
 
 func (impl *scadaEventClientImpl[T]) CloseWarning(ctx context.Context, service string, keys ...string) error {
-	grpc, err := grpc_tool.NewConnection(ctx, impl.address)
+	grpc, err := grpc_tool.NewConnection(impl.address)
 	if err != nil {
 		return err
 	}
@@ -134,7 +134,7 @@ func (impl *scadaEventClientImpl[T]) CloseWarning(ctx context.Context, service s
 }
 
 func (impl *scadaEventClientImpl[T]) ExtendWarning(ctx context.Context, service string, keys ...string) error {
-	grpc, err := grpc_tool.NewConnection(ctx, impl.address)
+	grpc, err := grpc_tool.NewConnection(impl.address)
 	if err != nil {
 		return err
 	}
@@ -149,7 +149,7 @@ func (impl *scadaEventClientImpl[T]) ExtendWarning(ctx context.Context, service 
 }
 
 func (impl *scadaEventClientImpl[T]) ReadWarnings(ctx context.Context, service string, account string, keys ...string) error {
-	grpc, err := grpc_tool.NewConnection(ctx, impl.address)
+	grpc, err := grpc_tool.NewConnection(impl.address)
 	if err != nil {
 		return err
 	}
@@ -176,7 +176,7 @@ type realtimeResp[T any] struct {
 }
 
 func (impl *scadaEventClientImpl[T]) GetRealtime(ctx context.Context, service string) ([]*realtimeResp[T], error) {
-	grpc, err := grpc_tool.NewConnection(ctx, impl.address)
+	grpc, err := grpc_tool.NewConnection(impl.address)
 	if err != nil {
 		return nil, err
 	}

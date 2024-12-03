@@ -23,7 +23,7 @@ type mailSdkImpl struct {
 }
 
 func (impl *mailSdkImpl) SingleMail(ctx context.Context, req *pb.SingleMailRequest) error {
-	grpc, err := grpc_tool.NewConnection(ctx, impl.address)
+	grpc, err := grpc_tool.NewConnection(impl.address)
 	if err != nil {
 		return err
 	}
