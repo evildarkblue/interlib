@@ -16,6 +16,7 @@ type ScadaLayoutClient interface {
 	GetReportSetting(ctx context.Context) (*pb.GetReportResponse, error)
 	GetScenarioReader(ctx context.Context) (ScenarioReader, error)
 	GetAlarmFields(ctx context.Context) ([]*pb.GetAlarmFieldsResponse_FieldDetail, error)
+	GetElectricityDemand(ctx context.Context) (*pb.GetElectricityDemandResponse, error)
 	GetSmartDefrost(ctx context.Context) (SmartDefrostLayout, error)
 }
 
@@ -202,10 +203,25 @@ func (impl *clientImpl) GetSmartDefrost(ctx context.Context) (SmartDefrostLayout
 	defer grpc.Close()
 
 	clt := pb.NewScadaLayoutServiceClient(grpc)
-
 	resp, err := clt.GetSmartDefrost(ctx, &emptypb.Empty{})
 	if err != nil {
 		return nil, err
 	}
 	return newSmartDefrost(resp), nil
+}
+
+func (impl *clientImpl) GetElectricityDemand(ctx context.Context) (*pb.GetElectricityDemandResponse, error) {
+	grpc, err := grpc_tool.NewConnection(impl.address)
+	if err != nil {
+		return nil, err
+	}
+	defer grpc.Close()
+
+	clt := pb.NewScadaLayoutServiceClient(grpc)
+
+	resp, err := clt.GetElectricityDemand(ctx, &emptypb.Empty{})
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
 }
